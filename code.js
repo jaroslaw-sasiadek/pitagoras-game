@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+	let combinationsCounter = 0;
 	const inputs = document.querySelectorAll("input");
 	const resultsList = document.getElementById("results");
 
@@ -19,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		const inputTarget = INPUTS.pop();
 		const inputCards = INPUTS;
 
-		if (inputTarget !== 0) {
+		if (inputTarget > 9) {
 			const fullList = findTarget(inputCards, inputTarget);
+			console.log(combinationsCounter);
 			fullList.forEach((record) => {
 				const listItem = document.createElement("li");
 				listItem.textContent = record;
@@ -33,13 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		let array = [];
 
 		function exploreCombinations(index, currentExpression, currentResult) {
-			if (index > cards.length) {
+			combinationsCounter++;
+
+			if (index >= cards.length) {
+				if (currentResult === target && !array.includes(currentExpression)) {
+					array.push(`${currentExpression} = ${currentResult}`);
+				}
 				return;
 			}
-			if (currentResult === target) {
-				if (!array.includes(currentExpression))
-					array.push(`${currentExpression} = ${currentResult}`);
-			}
+
 			const currentCard = cards[index];
 
 			exploreCombinations(
@@ -57,11 +61,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				`${currentExpression}*${currentCard}`,
 				currentResult * currentCard
 			);
-			exploreCombinations(
-				index + 1,
-				`${currentExpression}/${currentCard}`,
-				currentResult / currentCard
-			);
+
+			if (currentCard !== 0) {
+				exploreCombinations(
+					index + 1,
+					`${currentExpression}/${currentCard}`,
+					currentResult / currentCard
+				);
+			}
 		}
 
 		function permute(arr, start = 0) {
