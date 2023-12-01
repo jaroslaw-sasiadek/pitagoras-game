@@ -61,6 +61,19 @@ input:valid ~ span {
 	transform: translateX(110px);
 	transition: all 0.4s;
 }
+button {
+	transition: all 0.2s;
+	cursor: pointer;
+	border-style: none;
+	border-radius: 2px;
+	background-color: var(--c2);
+	height: 24px;
+	color: var(--c1);
+}
+button:hover {
+	background-color: var(--c3);
+	color: var(--c1);
+}
 ul {
 	display: flex;
 	flex-direction: column;
